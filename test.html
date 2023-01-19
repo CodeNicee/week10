@@ -1,0 +1,47 @@
+google.charts.load('current', {
+
+    'packages': ['geochart'],
+
+});
+
+google.charts.setOnLoadCallback(drawMap);
+
+
+function drawMap() {
+
+    var mapData = [];
+
+    mapData[0] = ['Provinces', 'Totol'];
+
+    fetch('https://jirawatchk.github.io/api.json')
+
+        .then(res => res.json())
+
+        .then(data => {
+
+            for (i = 1; i < 78; i++) {
+
+                mapData[i] = [data[i]['CC-DESC'], data[i]['TOTAL']];
+
+                //console.log(mapData[i]);
+
+            }
+
+            var data = google.visualization.arrayToDataTable(mapData);
+
+            var options = {
+
+                region: 'TH',
+
+                resolution: 'provinces',
+
+            };
+
+
+            var chart = new google.visualization.GeoChart(document.getElementById('display'));
+
+            chart.draw(data, options);
+
+        });
+
+};
